@@ -1,7 +1,7 @@
 import streamlit as st
 import nltk
 
-# download bộ dữ liệu về sentiment, dùng cache tránh tải nhiều lần
+# Download dataset sentiment
 @st.cache_resource
 def load_sentiment_analyzer():
     nltk.download('vader_lexicon')
@@ -18,7 +18,7 @@ def main():
 
     sentence = st.text_input("Enter a sentence to analyze: ")
 
-    # chấm điểm positive và negative
+    # Score positive và negative
     if sentence:
         sentiment_scores = sid.polarity_scores(sentence)
 
@@ -29,7 +29,7 @@ def main():
         # Bar Chart
         st.bar_chart({k: v for k, v in sentiment_scores.items() if k != 'compund'})
 
-        # Sentiment Analysis với màu tùy chỉnh
+        # Sentiment Analysis 
         compound = sentiment_scores['compound']
         if compound >= 0.05:
             sentiment = "Positive"
@@ -40,8 +40,7 @@ def main():
         else:
             sentiment = "Neutral"
             color = "lightgray"
-
-        # Hiển thị bằng HTML có đổi màu
+            
         st.markdown(
             f"""
             <div style="background-color:{color}; padding: 1rem; border-radius: 0.5rem; text-align: center;">
